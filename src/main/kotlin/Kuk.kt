@@ -3,6 +3,7 @@ import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import krangl.*
+import java.io.File
 import java.util.*
 
 fun static() {
@@ -39,15 +40,17 @@ data class User(val id : Int, val Name : String, val LastName : String,
 
 class Info {
     var listOfUsers: MutableList<User> ?= null
-    var list: MutableList<User> ?= null
-
     var users: DataFrame ?= null
+
     fun list() {
         listOfUsers = mutableListOf(
                 User(1, "Jhon", "Lutkovski", Date(1984, 7, 4), "Programmer", 2500),
                 User(2, "Anna", "Brain", Date(1990, 4, 25), "Manager", 2000),
                 User(3, "Steven", "Burk", Date(1974, 3, 20), "CEO", 4000),
                 User(4, "Andrey", "Karn", Date(1989, 5, 10), "Programmer", 2500))
+
+        File("example.txt").printWriter().use { out -> out.println(listOfUsers) }
+
         users = listOfUsers?.asDataFrame()
         users?.print()
 
@@ -57,34 +60,21 @@ class Info {
 
         users?.select("Name", "Salary")?.filter { it["Salary"] gt 2000 }?.print()
         users?.select("Salary")?.filterByRow { it["Salary"] as Int > 2000 }?.print()
+
     }
 
-    fun add_to_list(id : Int, Name : String, LastName : String,
-                    Date : Date, Job : String, Salary : Int) {
-        listOfUsers?.add(User(id, Name, LastName, Date, Job, Salary))
-        if(listOfUsers?.add(User(id, Name, LastName, Date, Job, Salary)) == true) {
-            println("Added")
-        } else
-            println("Error")
-        users = listOfUsers?.asDataFrame()
-        users?.print()
-    }
-
-    fun ex() {
-        list = mutableListOf(User(1, "Jhon", "Lutkovski", Date(1984, 7, 4), "Programmer", 2500))
-    }
-    fun w(id : Int, name: String, lastName: String, Date: Date, Job: String, Salary: Int) {
-        list?.add(User(id, name, lastName, Date, Job, Salary))
-        if(list?.add(User(id, name, lastName, Date, Job, Salary)) == true) {
-            println("Added")
-        } else {
-            println("Error")
+    fun add_to_list(id : Int, Name : String, LastName : String, Date : Date, Job : String, Salary : Int) {
+        val file = File("example.txt")
+        file.forEachLine {
+            println(it)
         }
-        println(list)
-    }
-    fun show() {
-        ex()
-        w(2, "KK", "KK", Date(12,12,12), "KK", 12)
+//        listOfUsers?.add(User(id, Name, LastName, Date, Job, Salary))
+//        File("example.txt").printWriter().use { out -> out.println(listOfUsers) }
+//        if(listOfUsers?.add(User(id, Name, LastName, Date, Job, Salary)) == true) {
+//            println("Added")
+//        } else {
+//            println("Error")
+//        }
     }
 }
 
@@ -98,7 +88,7 @@ fun readCVS() {
 }
 
 class Start_From_Console : CliktCommand() {
-    val readIinfo: String by option(help = "Read list").prompt("Read info")
+    val readIinfo: String by option(help = "Working with data").prompt("")
 
     override fun run() {
         if(readIinfo == "static") {
@@ -117,8 +107,7 @@ class Start_From_Console : CliktCommand() {
 }
 
 fun main(args: Array<String>) {
-//    Info().ex()
-//    Info().show()
+
     TermUi.echo("Hello it is reading data")
     Start_From_Console().main(args)
 }

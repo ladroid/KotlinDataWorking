@@ -29,14 +29,11 @@ dependencies {
     compile "de.mpicbg.scicomp:krangl:0.9.1"
     implementation 'com.github.ajalt:clikt:1.4.0'
 
-    // Core library
-    compile 'tel.egram.kuery:core:0.5.3'
-    // SQLite dialect
-    compile 'tel.egram.kuery:sqlite:0.5.3'
+    compile 'org.dizitart:nitrite:3.0.2'
+    compile 'org.dizitart:potassium-nitrite:3.0.2'
 
-    implementation 'ninja.sakib:PultusORM:v1.7'
-
-    compile 'org.jetbrains.exposed:exposed:0.10.4'
+    compile 'org.slf4j:slf4j-nop:1.7.25'
+    compile group: 'org.mapdb', name: 'mapdb', version: '3.0.7'
 }
 
 compileKotlin {
