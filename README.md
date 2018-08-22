@@ -126,8 +126,8 @@ db.close();
 ### To see what is it inside your file
 
 ```kotlin
-val db = DBMaker.fileDB("example.db").closeOnJvmShutdown().readOnly().make()
-println("${db.hashMap("example").open().get("name")} ${db.hashMap("example").open().get("age")}")
+val db = DBMaker.fileDB("file.db").closeOnJvmShutdown().readOnly().make()
+println("${db.hashMap("map").open().get("something")}")
 ```
 
 And that's all. Thanks for attention. Maybe sometimes I will improve it
