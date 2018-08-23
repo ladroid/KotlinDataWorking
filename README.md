@@ -130,4 +130,24 @@ val db = DBMaker.fileDB("file.db").closeOnJvmShutdown().readOnly().make()
 println("${db.hashMap("map").open().get("something")}")
 ```
 
+### Commit
+
+```kotlin
+db = DBMaker
+        .fileDB("file.db")
+        .fileMmapEnable()
+        .make();
+map = db.hashMap<String, String>("map", Serializer.STRING, Serializer.LONG).createOrOpen();
+map.put("something", 111L);
+db.commit()
+```
+
+### Rollback
+
+```kotlin
+val db = DBMaker.fileDB("file.db").transactionEnable().fileLockDisable().fileMmapEnable().make()
+db.hashMap("map")
+db.rollback()
+```
+
 And that's all. Thanks for attention. Maybe sometimes I will improve it
